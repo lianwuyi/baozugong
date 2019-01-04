@@ -1,0 +1,9 @@
+Define Class EbVFP2SQL As custom    
+
+    *--勾子方法,保存之后执行
+	Procedure Save
+	  MESSAGEBOX([lianwuyi], 16, [EbVFP2SQL] )
+	Endproc
+
+Enddefine
+
