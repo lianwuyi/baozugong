@@ -11,7 +11,7 @@
 
 *!* 调用示例：
 *popWindows('Wwwwjxc提示','..\bmp\net01.ico',250,8000,' ','坏坏设计')
-popWindows('系统提示','..\bmp\net01.ico',250,0,c标题,c提示)
+popWindows('系统提示','..\bmp\net01.ico',250,0,c标题,c内容)
 
 *!* 说明：
 *!* 1、这只是一个思路，你可以通过此思路创建自己的消息窗口，比如加入图片……
@@ -33,9 +33,9 @@ SET STATUS BAR &lcStuBar.
 RETURN
 DEFINE CLASS FrmPopWindow AS form
   DataSession = 2 
-AlwaysOnTop=.T.            &&若编译为EXE或APP使用，此属性不用设置，TIMER里有设定，效果会更好（从WINDOWS任务栏后面开始上升）
-AllowOutput = .F.
-ShowInTaskbar=.F.          && 谢谢xywf网友
+  AlwaysOnTop=.T.            &&若编译为EXE或APP使用，此属性不用设置，TIMER里有设定，效果会更好（从WINDOWS任务栏后面开始上升）
+  AllowOutput = .F.
+  ShowInTaskbar=.F.          && 谢谢xywf网友
   Height = 132
   Width = 277 
   BackColor = RGB(255,255,255)
@@ -50,7 +50,6 @@ ShowInTaskbar=.F.          && 谢谢xywf网友
   Layerdd= pnLayer
   MesCap = pcMesCap
   Mes = pcMes
-  
   
   PROCEDURE Load
    this.Left = SYSMETRIC(21) - this.Width - SYSMETRIC(3) * 2

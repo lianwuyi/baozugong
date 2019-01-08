@@ -8,7 +8,7 @@
 *!*	1.pTable是当前临时表
 *!*	---------------------------------------------------------------
 *!*	PROCEDURE CreateCursor   && 创建临时表，创建一个跟SQL表一样字段的dbf表。
-*!*	PROCEDURE GetHandle  && 获得句柄
+*!*	PROCEDURE GetHandle      && 获得句柄
 
 
 *!*	FUNCTION GetNextKeyValue  && 获取keys表里的ID。
@@ -46,7 +46,8 @@ Handle       = 0
 
 PROCEDURE CreateCursor   && 创建临时表---------------------------
 LPARAMETERS pTable  && pTable 临时表
-*!*	LPARAMETERS pTable, pKeyField  
+LPARAMETERS pTable, pKeyField  
+
 *!*	IF THIS.AccessMethod = [DBF]
 *!*	   IF NOT USED ( pTable )
 *!*	      SELECT 0
@@ -64,7 +65,7 @@ Cmd = [SELECT * FROM ] + pTable + [ WHERE 1=2]
 		SQLEXEC( THIS.Handle, Cmd )  && 产生句子是：SQLEXEC(THIS.Handle,select * from 表名 WHERE 1=2 )  查看表结构(1=2，即FALSE ，没有得到任何数据，只是显示字段名称而已。)
 		AFIELDS ( laFlds )  && 返回 laFlds 的字段数量
 		USE
-		CREATE CURSOR ( pTable ) FROM ARRAY laFlds  && 创建临时表 ptable form ARRAY 
+		CREATE CURSOR ( pTable ) FROM ARRAY laFlds  && 创建临时表 ptable 字段跟SQL的字段一样。
 *!*	   CASE THIS.AccessMethod = [XML]
 *!*	   CASE THIS.AccessMethod = [WC]
 *!*	ENDCASE
@@ -112,20 +113,20 @@ ENDIF
 ENDPROC
 
 
-PROCEDURE CreateView
+PROCEDURE CreateView  && 创建视图 --------------------------------
 LPARAMETERS pTable
-IF NOT USED( pTable )
-   MESSAGEBOX( [Can't find cursor ] + pTable, 16, [Error creating view], 2000 )
+IF NOT USED( pTable ) && 如果ptable无法打开。
+   MESSAGEBOX( [Can't find cursor ] + pTable, 16, [Error creating view], 2000 )  && 找不到游标 pTable,创建视图时出错
    RETURN
 ENDIF
-SELECT ( pTable )
-AFIELDS( laFlds )
+SELECT ( pTable ) && 打开当前临时表
+AFIELDS( laFlds ) && 返回 laFlds 的字段数量
 SELECT 0
-CREATE CURSOR ( [View] + pTable ) FROM ARRAY laFlds
+CREATE CURSOR ( [View] + pTable ) FROM ARRAY laFlds && 创建临时表 View+pTable,字段跟原来的字段一样。
 ENDFUNC
 
 
-PROCEDURE GetOneRecord
+PROCEDURE GetOneRecord  && 获得一条记录----------------------------
 LPARAMETERS pTable, pKeyField, pKeyValue
 SELECT ( pTable )
 Dlm   = IIF ( TYPE ( pKeyField ) = [C], ['], [] )
@@ -149,16 +150,16 @@ ENDCASE
 ENDFUNC
 
 
-PROCEDURE FillCursor
+PROCEDURE FillCursor  && 加载全部数据  ----------------------------
 LPARAMETERS pTable
 *!*	IF THIS.AccessMethod = [DBF]
 *!*	   RETURN
 *!*	ENDIF
-SELECT ( pTable )
-ZAP
-APPEND FROM DBF ( [SQLResult] )
-USE IN SQLResult
-GO TOP
+SELECT ( pTable )  && 打开当前表单
+ZAP  && 删除全部数据
+APPEND FROM DBF ( [SQLResult] ) && 追加SQL返回的结果数据
+USE IN SQLResult && 打开SQL返回的结果数据表
+GO TOP && 指定到数据第一条数据
 ENDPROC
 
 
@@ -232,9 +233,6 @@ ENDFUNC
 
 FUNCTION BuildInsertCommand && 建立插入命令-------------------------------------
 PARAMETERS pTable, pKeyField
-
-WAIT WINDOW pTable NOWAIT NOCLEAR 
-RETURN 
 
 Cmd = [INSERT ] + pTable + [ ( ]  && Cmd = insert 当前表名 (
 FOR I = 1 TO FCOUNT() && FCOUNT() 返回当前表单字段数目
@@ -336,7 +334,7 @@ ENDCASE
 ENDFUNC
 
 
-FUNCTION GetNextKeyValue  && 获取下一个键值----------------------------------------
+FUNCTION GetNextKeyValue  && 获取下一个键值----------------------------------------【从KEYS表获得ID，并且将KEYS表的ID+1】
 LPARAMETERS pTable  &&  当前表单变量
 EXTERNAL ARRAY laVal  && 这是一个数组
 pTable = UPPER ( pTable )  && 将当前表单的名字改成大写

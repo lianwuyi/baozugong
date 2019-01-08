@@ -1,12 +1,12 @@
 *       *********************************************************
 *       *                                                         
-*       * 2018.12.27             EBERP.MPR              23:36:25  
+*       * 01/08/19              EBERP.MPR               18:03:11  
 *       *                                                         
 *       *********************************************************
 *       *                                                         
 *       * Author's Name                                           
 *       *                                                         
-*       * Copyright (C) 2018 Company Name                         
+*       * Copyright (C) 2019 Company Name                         
 *       * Address                                                 
 *       * City,     Zip                                           
 *       *                                                         
@@ -131,24 +131,24 @@ IF m.lHasNewMenu
 	DEFINE MENU (m.cMenuName) IN (m.oFormRef.Name) BAR
 ENDIF
 
-DEFINE PAD _5dj1elj09 OF (m.cMenuName) PROMPT "系统设置(\<E)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz3 OF (m.cMenuName) PROMPT "系统设置(\<E)" COLOR SCHEME 3 ;
 	KEY ALT+E, ""
-DEFINE PAD _5dj1elj0a OF (m.cMenuName) PROMPT "基础信息(\<J)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz4 OF (m.cMenuName) PROMPT "基础信息(\<J)" COLOR SCHEME 3 ;
 	KEY ALT+J, ""
-DEFINE PAD _5dj1elj0b OF (m.cMenuName) PROMPT "销售管理(\<X)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz5 OF (m.cMenuName) PROMPT "销售管理(\<X)" COLOR SCHEME 3 ;
 	KEY ALT+X, ""
-DEFINE PAD _5dj1elj0c OF (m.cMenuName) PROMPT "财务管理(\<C)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz6 OF (m.cMenuName) PROMPT "财务管理(\<C)" COLOR SCHEME 3 ;
 	KEY ALT+C, ""
-DEFINE PAD _5dj1elj0d OF (m.cMenuName) PROMPT "附加功能(\<G)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz7 OF (m.cMenuName) PROMPT "附加功能(\<G)" COLOR SCHEME 3 ;
 	KEY ALT+G, ""
-DEFINE PAD _5dj1elj0e OF (m.cMenuName) PROMPT "关于(\<A)" COLOR SCHEME 3 ;
+DEFINE PAD _5dx12ozz8 OF (m.cMenuName) PROMPT "关于(\<A)" COLOR SCHEME 3 ;
 	KEY ALT+A, ""
-ON PAD _5dj1elj09 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[1])
-ON PAD _5dj1elj0a OF (m.cMenuName) ACTIVATE POPUP (a_menupops[2])
-ON PAD _5dj1elj0b OF (m.cMenuName) ACTIVATE POPUP (a_menupops[3])
-ON PAD _5dj1elj0c OF (m.cMenuName) ACTIVATE POPUP (a_menupops[4])
-ON PAD _5dj1elj0d OF (m.cMenuName) ACTIVATE POPUP (a_menupops[5])
-ON PAD _5dj1elj0e OF (m.cMenuName) ACTIVATE POPUP (a_menupops[6])
+ON PAD _5dx12ozz3 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[1])
+ON PAD _5dx12ozz4 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[2])
+ON PAD _5dx12ozz5 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[3])
+ON PAD _5dx12ozz6 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[4])
+ON PAD _5dx12ozz7 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[5])
+ON PAD _5dx12ozz8 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[6])
 
 DEFINE POPUP (a_menupops[1]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[1]) PROMPT "\-"
@@ -169,11 +169,11 @@ ON SELECTION BAR 3 OF (a_menupops[2]) do form ..\forms\k客户查询.scx
 
 DEFINE POPUP (a_menupops[3]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[3]) PROMPT "\-"
-DEFINE BAR 2 OF (a_menupops[3]) PROMPT "出货单录入"
-DEFINE BAR 3 OF (a_menupops[3]) PROMPT "出货单查询"
+DEFINE BAR 2 OF (a_menupops[3]) PROMPT "出货通知单录入"
+DEFINE BAR 3 OF (a_menupops[3]) PROMPT "出货通知单查询"
 DEFINE BAR 4 OF (a_menupops[3]) PROMPT "\-"
-ON SELECTION BAR 2 OF (a_menupops[3]) do form ..\forms\c出货单录入.scx
-ON SELECTION BAR 3 OF (a_menupops[3]) do form ..\forms\c出货单查询.SCX
+ON SELECTION BAR 2 OF (a_menupops[3]) do form ..\forms\c出货通知单录入.scx
+ON SELECTION BAR 3 OF (a_menupops[3]) do form ..\forms\c出货通知单查询.SCX
 
 DEFINE POPUP (a_menupops[4]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[4]) PROMPT "\-"
@@ -208,7 +208,7 @@ DEFINE BAR 6 OF (a_menupops[6]) PROMPT "\-"
 DEFINE BAR 7 OF (a_menupops[6]) PROMPT "About"
 DEFINE BAR 8 OF (a_menupops[6]) PROMPT "\-"
 ON SELECTION BAR 5 OF (a_menupops[6]) ;
-	DO _5dj1elj0f ;
+	DO _5dx12ozz9 ;
 	IN LOCFILE("\EBERP\MENUS\EBERP" ,"MPX;MPR|FXP;PRG" ,"WHERE is EBERP?")
 ON SELECTION BAR 7 OF (a_menupops[6]) do form about.scx
 
@@ -222,7 +222,7 @@ ENDIF
 
 *       *********************************************************
 *       *                                                         
-*       * _5DJ1ELJ0F  ON SELECTION BAR 5 OF POPUP 关于a           
+*       * _5DX12OZZ9  ON SELECTION BAR 5 OF POPUP 关于a           
 *       *                                                         
 *       * Procedure Origin:                                       
 *       *                                                         
@@ -233,7 +233,7 @@ ENDIF
 *       *                                                         
 *       *********************************************************
 *
-PROCEDURE _5dj1elj0f
+PROCEDURE _5dx12ozz9
 DECLARE INTEGER ShellExecute IN shell32.DLL INTEGER HWND, STRING,;
         STRING lpszFile,STRING ,STRING ,INTEGER
  lpszFile='www.ebongsoft.com'

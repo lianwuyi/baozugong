@@ -32,7 +32,7 @@ PUBLIC  c版本号,c版权,c系统日期,c测试,oDataTier
 c版本号="ERP管理系统 Ver 1.8"
 c版权 = '版权所有：(C)EbongSoft 2018'
 c系统日期 = DTOC(DATE())
-c测试=0   && 未测试状态
+c测试=1   && 未测试状态
 *----------------------------------------------
 
 *!*	SET PROCEDURE TO datatier.prg
