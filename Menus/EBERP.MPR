@@ -1,6 +1,6 @@
 *       *********************************************************
 *       *                                                         
-*       * 01/09/19              EBERP.MPR               17:48:48  
+*       * 04/27/19              EBERP.MPR               15:30:43  
 *       *                                                         
 *       *********************************************************
 *       *                                                         
@@ -103,7 +103,7 @@ ENDIF
 IF m.cTypeParm2 = "C" AND !EMPTY(m.getMenuName)
 	m.cMenuName = m.getMenuName
 ENDIF
-DIMENSION a_menupops[6]
+DIMENSION a_menupops[7]
 IF TYPE("m.lUniquePopups")="L" AND m.lUniquePopups
 	FOR nTotPops = 1 TO ALEN(a_menupops)
 		a_menupops[m.nTotPops]= SYS(2015)
@@ -113,8 +113,9 @@ ELSE
 	a_menupops[2]="_56a1808cl"
 	a_menupops[3]="销售管理x"
 	a_menupops[4]="财务管理c"
-	a_menupops[5]="附加功能g"
-	a_menupops[6]="关于a"
+	a_menupops[5]="出货管理h"
+	a_menupops[6]="附加功能g"
+	a_menupops[7]="关于a"
 ENDIF
 
 
@@ -131,24 +132,27 @@ IF m.lHasNewMenu
 	DEFINE MENU (m.cMenuName) IN (m.oFormRef.Name) BAR
 ENDIF
 
-DEFINE PAD _5dy126hs1 OF (m.cMenuName) PROMPT "系统设置(\<E)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xaw OF (m.cMenuName) PROMPT "系统设置(\<E)" COLOR SCHEME 3 ;
 	KEY ALT+E, ""
-DEFINE PAD _5dy126hs2 OF (m.cMenuName) PROMPT "基础信息(\<J)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xax OF (m.cMenuName) PROMPT "基础信息(\<J)" COLOR SCHEME 3 ;
 	KEY ALT+J, ""
-DEFINE PAD _5dy126hs3 OF (m.cMenuName) PROMPT "销售管理(\<X)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xay OF (m.cMenuName) PROMPT "销售管理(\<X)" COLOR SCHEME 3 ;
 	KEY ALT+X, ""
-DEFINE PAD _5dy126hs4 OF (m.cMenuName) PROMPT "财务管理(\<C)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xaz OF (m.cMenuName) PROMPT "财务管理(\<C)" COLOR SCHEME 3 ;
 	KEY ALT+C, ""
-DEFINE PAD _5dy126hs5 OF (m.cMenuName) PROMPT "附加功能(\<G)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xb0 OF (m.cMenuName) PROMPT "出货管理(\<H)" COLOR SCHEME 3 ;
+	KEY ALT+H, ""
+DEFINE PAD _5gy0x8xb1 OF (m.cMenuName) PROMPT "附加功能(\<G)" COLOR SCHEME 3 ;
 	KEY ALT+G, ""
-DEFINE PAD _5dy126hs6 OF (m.cMenuName) PROMPT "关于(\<A)" COLOR SCHEME 3 ;
+DEFINE PAD _5gy0x8xb2 OF (m.cMenuName) PROMPT "关于(\<A)" COLOR SCHEME 3 ;
 	KEY ALT+A, ""
-ON PAD _5dy126hs1 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[1])
-ON PAD _5dy126hs2 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[2])
-ON PAD _5dy126hs3 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[3])
-ON PAD _5dy126hs4 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[4])
-ON PAD _5dy126hs5 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[5])
-ON PAD _5dy126hs6 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[6])
+ON PAD _5gy0x8xaw OF (m.cMenuName) ACTIVATE POPUP (a_menupops[1])
+ON PAD _5gy0x8xax OF (m.cMenuName) ACTIVATE POPUP (a_menupops[2])
+ON PAD _5gy0x8xay OF (m.cMenuName) ACTIVATE POPUP (a_menupops[3])
+ON PAD _5gy0x8xaz OF (m.cMenuName) ACTIVATE POPUP (a_menupops[4])
+ON PAD _5gy0x8xb0 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[5])
+ON PAD _5gy0x8xb1 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[6])
+ON PAD _5gy0x8xb2 OF (m.cMenuName) ACTIVATE POPUP (a_menupops[7])
 
 DEFINE POPUP (a_menupops[1]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[1]) PROMPT "\-"
@@ -172,12 +176,10 @@ DEFINE BAR 1 OF (a_menupops[3]) PROMPT "\-"
 DEFINE BAR 2 OF (a_menupops[3]) PROMPT "出货通知单录入"
 DEFINE BAR 3 OF (a_menupops[3]) PROMPT "出货通知单查询"
 DEFINE BAR 4 OF (a_menupops[3]) PROMPT "\-"
-DEFINE BAR 5 OF (a_menupops[3]) PROMPT "接收通知单查询" ;
-	SKIP FOR c接收<>1
+DEFINE BAR 5 OF (a_menupops[3]) PROMPT "出货综合查询"
 DEFINE BAR 6 OF (a_menupops[3]) PROMPT "\-"
 ON SELECTION BAR 2 OF (a_menupops[3]) do form ..\forms\c出货通知单录入.scx
 ON SELECTION BAR 3 OF (a_menupops[3]) do form ..\forms\c出货通知单查询.SCX
-ON SELECTION BAR 5 OF (a_menupops[3]) do form ..\forms\j接收出货通知单查询.scx
 
 DEFINE POPUP (a_menupops[4]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[4]) PROMPT "\-"
@@ -192,29 +194,39 @@ ON SELECTION BAR 5 OF (a_menupops[4]) do form ..\forms\y应收款查询.scx
 
 DEFINE POPUP (a_menupops[5]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[5]) PROMPT "\-"
-DEFINE BAR 2 OF (a_menupops[5]) PROMPT "标签录入"
-DEFINE BAR 3 OF (a_menupops[5]) PROMPT "标签查询"
-DEFINE BAR 4 OF (a_menupops[5]) PROMPT "\-"
-DEFINE BAR 5 OF (a_menupops[5]) PROMPT "短信发送"
-DEFINE BAR 6 OF (a_menupops[5]) PROMPT "短信查询"
-DEFINE BAR 7 OF (a_menupops[5]) PROMPT "短信充值"
-DEFINE BAR 8 OF (a_menupops[5]) PROMPT "\-"
-ON SELECTION BAR 2 OF (a_menupops[5]) do form ..\forms\b标签录入.scx
-ON SELECTION BAR 3 OF (a_menupops[5]) do form ..\forms\b标签查询.scx
+DEFINE BAR 2 OF (a_menupops[5]) PROMPT "接收通知单查询" ;
+	SKIP FOR c接收<>1
+DEFINE BAR 3 OF (a_menupops[5]) PROMPT "\-"
+DEFINE BAR 4 OF (a_menupops[5]) PROMPT "出货单录入"
+DEFINE BAR 5 OF (a_menupops[5]) PROMPT "出货单查询"
+DEFINE BAR 6 OF (a_menupops[5]) PROMPT "\-"
+ON SELECTION BAR 2 OF (a_menupops[5]) do form ..\forms\j接收出货通知单查询.scx
 
 DEFINE POPUP (a_menupops[6]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
 DEFINE BAR 1 OF (a_menupops[6]) PROMPT "\-"
-DEFINE BAR 2 OF (a_menupops[6]) PROMPT "在线帮助"
-DEFINE BAR 3 OF (a_menupops[6]) PROMPT "系列产品"
+DEFINE BAR 2 OF (a_menupops[6]) PROMPT "标签录入"
+DEFINE BAR 3 OF (a_menupops[6]) PROMPT "标签查询"
 DEFINE BAR 4 OF (a_menupops[6]) PROMPT "\-"
-DEFINE BAR 5 OF (a_menupops[6]) PROMPT "公司网站"
-DEFINE BAR 6 OF (a_menupops[6]) PROMPT "\-"
-DEFINE BAR 7 OF (a_menupops[6]) PROMPT "About"
+DEFINE BAR 5 OF (a_menupops[6]) PROMPT "短信发送"
+DEFINE BAR 6 OF (a_menupops[6]) PROMPT "短信查询"
+DEFINE BAR 7 OF (a_menupops[6]) PROMPT "短信充值"
 DEFINE BAR 8 OF (a_menupops[6]) PROMPT "\-"
-ON SELECTION BAR 5 OF (a_menupops[6]) ;
-	DO _5dy126hs7 ;
+ON SELECTION BAR 2 OF (a_menupops[6]) do form ..\forms\b标签录入.scx
+ON SELECTION BAR 3 OF (a_menupops[6]) do form ..\forms\b标签查询.scx
+
+DEFINE POPUP (a_menupops[7]) MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF (a_menupops[7]) PROMPT "\-"
+DEFINE BAR 2 OF (a_menupops[7]) PROMPT "在线帮助"
+DEFINE BAR 3 OF (a_menupops[7]) PROMPT "系列产品"
+DEFINE BAR 4 OF (a_menupops[7]) PROMPT "\-"
+DEFINE BAR 5 OF (a_menupops[7]) PROMPT "公司网站"
+DEFINE BAR 6 OF (a_menupops[7]) PROMPT "\-"
+DEFINE BAR 7 OF (a_menupops[7]) PROMPT "About"
+DEFINE BAR 8 OF (a_menupops[7]) PROMPT "\-"
+ON SELECTION BAR 5 OF (a_menupops[7]) ;
+	DO _5gy0x8xb3 ;
 	IN LOCFILE("\EBERP\MENUS\EBERP" ,"MPX;MPR|FXP;PRG" ,"WHERE is EBERP?")
-ON SELECTION BAR 7 OF (a_menupops[6]) do form about.scx
+ON SELECTION BAR 7 OF (a_menupops[7]) do form about.scx
 
 ACTIVATE MENU (m.cMenuName) NOWAIT
 
@@ -226,18 +238,18 @@ ENDIF
 
 *       *********************************************************
 *       *                                                         
-*       * _5DY126HS7  ON SELECTION BAR 5 OF POPUP 关于a           
+*       * _5GY0X8XB3  ON SELECTION BAR 5 OF POPUP 关于a           
 *       *                                                         
 *       * Procedure Origin:                                       
 *       *                                                         
-*       * From Menu:  EBERP.MPR,            Record:   69          
+*       * From Menu:  EBERP.MPR,            Record:   82          
 *       * Called By:  ON SELECTION BAR 5 OF POPUP 关于a           
 *       * Prompt:     公司网站                                    
 *       * Snippet:    1                                           
 *       *                                                         
 *       *********************************************************
 *
-PROCEDURE _5dy126hs7
+PROCEDURE _5gy0x8xb3
 DECLARE INTEGER ShellExecute IN shell32.DLL INTEGER HWND, STRING,;
         STRING lpszFile,STRING ,STRING ,INTEGER
  lpszFile='www.ebongsoft.com'
