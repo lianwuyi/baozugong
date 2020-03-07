@@ -11,7 +11,7 @@ SET HELP ON           && 允许打开帮助
 SET ESCAPE OFF        && 禁止运行的程序在按 Esc 键后被中断
 SET NULLDISPLAY TO '' && 去除一切值带 null
 SET MULTILOCKS ON
-=cursorsetprop("Buffering",5)  
+
 
 *-----设置程序主目录-------------------------
 RELEASE gcMainPath
