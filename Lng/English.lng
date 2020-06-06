@@ -1,0 +1,107 @@
+[Text]
+;Main form
+	MFTAB1GROUP1=Style file and properties
+	MFTAB1=Designer styles
+		MFTAB1BUT1=Default style
+			MFTAB1BUT1H2=Set default values to the style
+		MFTAB1BUT2=Style properties
+			MFTAB1BUT2H2=Open the properties panel to change
+		MFTAB1BUT3=\<Open
+			MFTAB1BUT3H2=Open style file
+		MFTAB1BUT4=Save
+			MFTAB1BUT4H2=Save style file			
+		MFTAB1BUT5=Save as
+			MFTAB1BUT5H2=Save as the style file
+		MFTAB1BUT6=See code
+			MFTAB1BUT6H2=See code and copy properties
+		MFGROUPGRADIENT=Gradient background	
+		MFTAB1BUT7=About
+			MFTAB1BUT7H2=FoxRibbon about			
+	MFTAB2=\<What is FoxRibbon?
+		MFTAB2GROUP1=
+	MFTAB3=\<Examples
+	MFQUESTION1=The style has changed. Save changes?
+	SB0001=Side bar title
+	SB0002=Hello World
+	SB0003=Group title
+	SB0004=Help text
+	SB0005=Images
+	SB0006=Menu change
+	
+;Panel style properties
+	STYPAN01=Backgrounds
+	STYPAN02=Buttons
+	STYPAN03=Ribbon, tabs and groups
+	STYPAN04=Others
+	STYPAN05=In editing controls
+
+; Carousel
+	CAR001=FoxRibbon?
+	CAR002=FoxRibbon is a class library VCX 100% Visual FoxPro offers a set of tools to improve the visual appearance of our applications. Its use and distribution is free to all Visual FoxPro Community.
+	CAR003=Features
+	CAR004=Ribbon style menu
+	CAR005=Based menu tabs
+	CAR006=Design styles (Colors)
+	CAR007=Multi language
+	CAR008=Drop down menus
+	CAR009=Calendar dates and times control
+	CAR010=Requirements
+	
+;OpenFileIni form
+	OPEFIL01=Open style
+	OPEFIL02=Style
+	OPEFIL03=Screenshot
+	OPEFIL04=\<Browse
+	OPEFIL05=Se\<lect
+	OPEFIL06=The file does not exist or is not formatted FoxRibbon
+	OPEFIL07=Name:
+	OPEFIL08=Open file ini
+	OPEFIL09=Please, select a style
+
+;SeeCode form
+	SC01=Copy the properties and then paste in your Main.prg
+	SC02=These are the default properties
+	SC03=Copy code
+	SC04=The code has been copied successfully
+	
+;About form
+	AB01=Credits
+	AB02=Translations
+	AB03=Author
+	AB04=FoxRibbon use the class libraries GdiPlusX (System.app)
+	AB05=FoxRibbon is a class 100% Visual FoxPro. Its use and distribution is free to all Visual FoxPro Community.
+
+;Test_MessageBox form
+	TEST_MSG001=Test MessageBox
+	TEST_MSG002=Parameters
+	TEST_MSG003=TcCaption - The text that appears in the dialog box.
+	TEST_MSG004=TnIcon - The icon to display, can be numeric with the same values used by the function MESSAGEBOX (), or character:
+	TEST_MSG005=Icon Error: 16 or "x"
+	TEST_MSG006=Icon Enterrogación: 32 or "?"
+	TEST_MSG007=Icon: 48 or "!"
+	TEST_MSG008=Information Icon: 64 or "i"
+	TEST_MSG009=TcTitle - The text that appears in the title bar of the dialog box
+	TEST_MSG010=TcButtons - The texts used in the buttons using the comma "," as a delimiter. Use the characters "\ <" to determine the HotKey
+	TEST_MSG011=TcIconFile - (optional) file icon image
+	TEST_MSG012=TnTimeOut - (optional) in milliseconds
+	TEST_MSG013=Return value
+	TEST_MSG014="X" of the form or ESC = 0
+	TEST_MSG015=Button 1 = 1
+	TEST_MSG016=Button 2 = 2
+	TEST_MSG017=Button 3 = 3
+	TEST_MSG018=After the tnTimeOut = -1
+	TEST_MSG019=Note: The visibility of the progress bar depends on the property _SCREEN.oRibbon.ShowProgressMessageBox
+	
+;Others
+	OTH001=E\<xit
+	OTH002=Warning
+	OTH003=None
+	OTH004=\<Close
+	OTH005=\<Cancel
+	OTH006=Ready
+	OTH007=\<Yes
+	OTH008=\<No
+	OTH009=\<Ok
+	OTH010=Styles
+	OTH011=Sorry page under construction
+	OTH012=Sample

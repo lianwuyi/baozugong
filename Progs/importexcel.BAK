@@ -1,0 +1,188 @@
+lcfile=Getfile("XLS,XLSX")
+If !File(lcfile)
+	Wait "文件不存在" Windows
+	Return .F.
+Endif
+
+xx=Createobject("importexcel")
+xx.cursorstruc="客户名称 c(50),产品名称 c(254),客户编码 c(20),完成时间 T ,备注 c(20),导入时间 T(8)"
+**以下两行也可以改成xx.improt(lcfile,"tmpxxx")
+xx.Alias="tmpxxx"
+xx.Import(lcfile)
+*--导出模板文件
+xx.templatetoxls()
+*--导出临时表
+*xx.toexcel("tmpxxx")
+
+Define Class importExcel As Custom
+	cursorstruc=""
+	Alias=""
+	filename=""
+	*-- 参数文件和临时表
+	Procedure Import
+	Lparameters cFile,cAlias
+	This.filename=cFile
+	If !Empty(cAlias)
+		This.Alias=cAlias
+	Endif
+
+	If Empty(This.Alias)
+		Error "请设置临时表属性"
+	Endif
+	Local ox
+	oldtable=Select()
+	If !File(This.filename)
+		Error "文件不存在"
+	Endif
+	
+	ox = Createobject("Excel.Application")
+	ox.workbooks.Open(cFile)
+	lnrow = ox.activesheet.usedrange.Rows.Count
+	lncol = ox.activesheet.usedrange.Columns.Count
+	Public laxls
+	Dimension laxls(lnrow,lncol)
+	laxls = ox.activesheet.usedrange.Value
+	ox.Quit()
+	&&创建临时表
+	If Used(This.Alias)
+		Select (This.Alias)
+		Use
+	Endif
+	TEXT TO lccmd NOSHOW TEXTMERGE
+	create CURSOR <<this.alias>>(<<this.cursorstruc>>)
+	ENDTEXT
+	EXECSCRIPT(lccmd)  &&可以支持多行分号语法
+	*SELECT (this.alias)
+	lcFieldList=""
+	*lnsec=Seconds()
+	*--算法1
+	*只要EXCEL表格第一行为字段就可以了，顺序可以不一样
+	llismemo=.F.  &&查找是否有备注字段
+	Dimension atmp[Alen(laxls,2)] &&定义要删除的数组
+	For i=1 To Alen(laxls,2)  &&循环数组的列数
+		llfind=.F.
+		For j=1 To Fcount(This.Alias) &&循环验证字段名称
+			If Transform(UPPER(laxls(1,i)))=Alltrim(UPPER(Field(j)))  &&如果验证成功，就添加字段名称
+				If Type(Field(j))="M"
+					llismemo=.T.
+				Endif
+				lcFieldList=lcFieldList+","+Transform(laxls(1,i))
+				llfind=.T.
+				Exit
+			Endif
+		Next
+		If llfind=.F.
+			atmp[i]=.T.
+		Endif
+	Next
+	For i=Alen(atmp) To 1 Step -1
+		If atmp[i]
+			Adel(laxls,i,2)
+		Endif
+	Next
+
+	lcFieldList=Right(lcFieldList,Len(lcFieldList)-1)
+	*ADEL(laxls,1) &&删除第一行数组 
+	SELECT (this.alias)
+	If llismemo &&是否有备注字段		
+		For i=1 To Alen(laxls,1)
+			Dimension atmp2(Alen(laxls,2))
+			For j=1 To Alen(laxls,2)
+				atmp2[j]=laxls[i,j]
+			Next
+			Append Blank
+			Gather From atmp2 Fields &lcFieldList Memo
+		Next
+	Else
+		lccmd="APPEND FROM ARRAY laxls fields "+lcFieldList+" "		
+		&lccmd
+	Endif
+
+	*?"时间",Seconds()-lnsec
+	SELECT(this.alias)
+	lcTable=this.alias
+	SELECT * FROM &lcTable WHERE RECNO()>1 INTO CURSOR &lcTable readwrite
+	*a1=b1
+*!*		Go Top
+*!*		Delete
+	Select (oldtable)
+	RETURN _TALLY
+	Endproc
+
+PROCEDURE Templatetoxls
+	&&创建临时表
+	cName=SYS(2015)
+	TEXT TO lccmd NOSHOW TEXTMERGE
+	create CURSOR <<cName>> (<<this.cursorstruc>>)
+	ENDTEXT
+	EXECSCRIPT(lccmd)  &&可以支持多行分号语法
+	this.toexcel(cName)
+ 	USE IN (cName)	 	
+ENDPROC 
+
+Function toexcel()
+	Lparameters dbfname
+	Declare Integer ShellExecute In shell32.Dll Integer HWnd,String lpszOP,String lpszFile,String lpszParams,String lpszDir,Integer fsshowcmd
+	*	RPTSHEET=Getobject('','excel.sheet')
+	RPTSHEET=Createobject("excel.application")
+	RPTSHEET.Visible=.F.
+	XLAPP=RPTSHEET.Application
+	XLAPP.WORKBOOKS.Add()
+	XLSHEET=XLAPP.ACTIVESHEET
+	RPTSHEET.Caption=dbfname+"_QiyuSoft"
+
+	*!* 20．设置页脚、顶边距、底边距、左边距、右边距
+	With RPTSHEET.ACTIVESHEET.PageSetup
+		.CenterFooter="第&P页"
+		.TopMargin=1/0.035
+		.BottomMargin=2/0.035
+		.LeftMargin=1/0.035
+		.RightMargin=1/0.035
+	Endwith
+
+	Select &dbfname
+	** 创建报表头
+	gnFieldcount = Afields(gaMyArray)  && 创建数组。
+	For nCount = 1 To gnFieldcount
+		XLAPP.CELLS(1,nCount).Value=gaMyArray(nCount,1)
+		If Vartype(gaMyArray(nCount,1))='C'
+			RPTSHEET.Columns(nCount).Select
+			RPTSHEET.Selection.NumberFormatLocal = "@"  &&设置列格式为字符型
+		Else
+			RPTSHEET.Columns(nCount).Select
+			RPTSHEET.Selection.HorizontalAlignment=4	&&其它类型右对齐
+		Endif
+		RPTSHEET.ACTIVESHEET.Columns(nCount).Font.Size=9
+	Endfor
+
+	Select &dbfname
+	Go Top
+	lccont=2 && 数据从第二行开始
+	Scan
+		For nCount = 1 To gnFieldcount
+			&&判断单元格里是否为字符型，如果是则去掉前后空格 排版需要。
+			&&上面是判断字段类型，这次判断 字段值类型
+			If Vartype(&gaMyArray(nCount,1))='C'
+				XLAPP.CELLS(lccont,nCount).Value=Alltrim(&gaMyArray(nCount,1))
+			Else
+				XLAPP.CELLS(lccont,nCount).Value=TRANSFORM(&gaMyArray(nCount,1))
+			Endif
+		Endfor
+		lccont=lccont+1
+	Endscan
+	RPTSHEET.CELLS.EntireColumn.AutoFit  && 自动宽度
+	*	WAIT CHR(gnFieldcount+64)+ALLTRIM(STR(lccont)) windows
+	**   设置表格边线
+	With RPTSHEET.ACTIVESHEET.Range("a1:"+Chr(gnFieldcount+64)+Alltrim(Str(lccont-1)))
+		*		.BorderS(2).LineStyle=9
+		.BorderS(1).Weight=2
+		.BorderS(2).Weight=2
+		.BorderS(3).Weight=2
+		.BorderS(4).Weight=2
+	Endwith
+	RPTSHEET.Visible=.T.
+    RPTSHEET.Cells(1,1).Select
+ENDFUNC
+
+Enddefine
+

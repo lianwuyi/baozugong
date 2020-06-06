@@ -1,9 +1,0 @@
-Define Class MyData As Session OLEPUBLIC && 如果是VFP6-SP5以下，把SessionN改为Custom
-    Procedure GetDataCount
-        Lparameters tcTable
-        Select 0
-        Select Count(*) From (tcTable) Into Array curData
-        Use In (tcTable)
-        Return Alltrim(Str(curdata))
-    Endproc
-Enddefine

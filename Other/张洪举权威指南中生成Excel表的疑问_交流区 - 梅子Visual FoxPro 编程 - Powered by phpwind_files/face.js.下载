@@ -1,0 +1,5 @@
+var facedb={};
+
+var face=new Array();
+
+var faces=new Array();

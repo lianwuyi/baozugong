@@ -20,7 +20,7 @@ ReservedWords = [,DESC,DATE,RESERVED,PRINT,ID,VIEW,BY,DEFAULT,CURRENT,KEY,ORDER,
 
 *!*	连接SQL数据库-------------------------------------------------------------------------------
 *!*ConnStr = [Driver={SQL Server};Server=(local);UID=sa;PWD=;Database=NorthWind;]
-ConnStr = [Driver={SQL Server};Server=192.168.1.8;UID=sa;PWD=3b7d29akfq93lgs8;Database=EbERPdb;]
+ConnStr = [Driver={SQL Server};Server=192.168.2.8;UID=sa;PWD=3b7d29akfq93lgs8;Database=baozugong_ebong;]
 Handle = SQLSTRINGCONNECT( ConnStr )
 IF Handle < 1
 *!*	   MESSAGEBOX( "Unable to connect to SQL" + CHR(13) + ConnStr, 16 )
@@ -50,7 +50,6 @@ ENDFOR
 *!*	断开数据库-----------------------------------------------------------------------------------
 SQLDISCONNECT(0)
 *!*	_VFP.Caption = [Done]
-
 
 *!*----------------------------------------------------------------------------------------------
 *!*	LoadOneTable() 类过程，自定义的过程，方法是将DBF数据保存到SQL里。

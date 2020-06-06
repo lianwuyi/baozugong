@@ -22,18 +22,39 @@ gcMainPath = Sys(5)+"\"          && 设置当前根目录为系统路径 +SYS(2003)
 SET DEFAULT TO &gcMainPath
 
 CD "\Baozugong\"
-SET PATH TO ;DATA;FORMS;LIBS;MENUS;PROGS;REPORTS;BMP;EXCEL
+SET PATH TO ;DATA;FORMS;LIBS;MENUS;PROGS;REPORTS;BMP;EXCEL;LNG
 *----------------------------------------------
 
 
 *-----设置系统公共变量-------------------------
-RELEASE c版本号,c版权,c系统日期,c测试
-PUBLIC  c版本号,c版权,c系统日期,c测试
+RELEASE c版本号,c版权,cSqlServer,cLng,cColor,cCustomer,cWidth 
+PUBLIC  c版本号,c版权,cSqlServer,cLng,cColor,cCustomer,cHeight 
 
-c版本号="包租公自建房出租管理系统 Ver 1.0"
+c版本号="包租公房屋管理系统 Ver 1.0"
 c版权 = '版权所有：(C)EbongSoft 2020'
-c系统日期 = DTOC(DATE())
-c测试=0   && 未测试状态
+cWidth = 1024
+cHeight = 768
 *----------------------------------------------
 
+
+*------从sys.ini 文件里面获取默认信息---------------------------------
+If !File('Sys.ini')
+    Messagebox('配制文件 Sys.ini 不存在！'+Space(5),16,'信息提示')
+    QUIT
+Endif
+lcConfigStr=Upper(Filetostr('Sys.ini')) &&将INI文件转成字符串
+lnConfigStrLine=Memlines(lcConfigStr)      &&取得INI文件的行数
+For I=1 To lnConfigStrLine
+    lcRowStr=Mline(lcConfigStr,I)  &&取得INI文件的每行
+    Do Case
+        Case Upper('ServerIPAdress=')$lcRowStr
+            csqlserver=Alltrim(Strextract(lcRowStr,Upper('ServerIPAdress=')))  && 数据库路径
+        CASE UPPER('Lanuage=')$lcRowStr
+            cLng=Alltrim(Strextract(lcRowStr,Upper('Lanuage=')))  && 默认语言
+        Case Upper('Color=')$lcRowStr
+            cColor=Alltrim(Strextract(lcRowStr,Upper('Color='))) && 默认主题颜色
+        Case Upper('Customer=')$lcRowStr
+            cCustomer=LOWER(Alltrim(Strextract(lcRowStr,Upper('Customer=')))) && 默认客户
+    Endcase
+ENDFOR
 *--------------------------------------------------------------------------------------
